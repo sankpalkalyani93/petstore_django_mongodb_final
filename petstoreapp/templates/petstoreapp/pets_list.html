@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %} Pets List Page {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h1 class="mb-4">Pet List</h1>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Breed</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pet in pets %}
+                    <tr>
+                        <td>{{ pet.name }}</td>
+                        <td>{{ pet.breed }}</td>
+                        <td>${{ pet.price }}</td>
+                        <td>
+                            {% if pet.image %}
+                            <img src="{{ pet.image.url }}" alt="{{ pet.name }}" style="max-width: 100px; height: auto;">
+                            {% else %}
+                            No image available
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{% url 'pet_create' %}" class="btn btn-primary">Add Pet</a>
+    </div>
+</div>
+{% endblock %}
