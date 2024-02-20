@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Pets Detail Page {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <img src="{{ pet.image.url }}" class="card-img-top" alt="{{ pet.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ pet.name }}</h5>
+                    <p class="card-text"><strong>Breed:</strong> {{ pet.breed }}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{ pet.price }}</p>
+                    <p class="card-text"><strong>Category:</strong> {{ pet.category }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

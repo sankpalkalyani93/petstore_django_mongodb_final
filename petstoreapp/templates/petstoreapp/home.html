@@ -1,8 +1,45 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %} Pets Home {% endblock %}
-
+{% block style %}
+<style>
+    /* Custom CSS to make the image full width */
+    .pet-image {
+        width: 400px;
+        height: auto;
+    }
+</style>
+{% endblock %}
 {% block content %}
-    <h2>Welcome to the Pets Home Page</h2>
-    <p>This particular page shows the home/ dashboard information for the pet store project.</p>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4 d-flex align-items-center justify-content-center">Welcome to Our Pet Store!</h1>
+        <p class="lead text-center">This is the homepage of our pet store. We offer a wide range of pets and pet supplies.</p>
+        <hr class="my-4">
+        <img src="{% static 'images/pets_home_image.jpg' %}" class="img-fluid mx-auto d-block" alt="Pet Store">
+    </div>
+    <div>
+        <p class="display-4 d-flex align-items-center justify-content-center">Major Pet Categories</p> 
+    </div>
+    
+    <div class="row mt-10 mb-10">
+      
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_dog' %}">
+                <img src="{% static 'images/dog-home.jpg' %}" class="img-fluid pet-image" alt="Dogs">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_cat' %}">
+                <img src="{% static 'images/cat-home.jpg' %}" class="img-fluid pet-image" alt="Cats">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_bird' %}">
+                <img src="{% static 'images/birds-home.jpg' %}" class="img-fluid pet-image" alt="Birds">
+            </a>
+        </div>
+        <!-- Add more columns for other categories -->
+    </div>
+</div>
 {% endblock %}

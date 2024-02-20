@@ -1,8 +1,10 @@
 from django.db import models
 
-# Create your models here.
+# Create your models here.   
+    
 class Pet(models.Model):
     id = models.AutoField(primary_key=True)
+    category = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
     breed = models.CharField(max_length=100)
     price = models.IntegerField()
@@ -10,3 +12,4 @@ class Pet(models.Model):
 
     def __str__(self):
         return f"{ self.name }"
+    
