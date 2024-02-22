@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} About Us {% endblock %}
+{% block style %}
+<style>
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4 d-flex align-items-center justify-content-center">About Us</h1>
+        <img src="{% static 'images/pets_home_image.jpg' %}" class="img-fluid mx-auto d-block" alt="Pet Store">
+        <hr class="my-4">
+        <p class="lead text-center">Welcome to My Pet Store, your one-stop destination for all your pet needs! We are dedicated to providing the highest quality products and services to ensure the health and happiness of your beloved pets.
+            At My Pet Store, we understand the special bond you share with your furry friends, which is why we strive to offer a wide range of products tailored to meet their needs. Whether you have a playful pup, a curious cat, or any other furry companion, we have everything you need to keep them happy and healthy.      
+            Our mission is to make pet care convenient and enjoyable for pet owners while providing the best possible experience for their pets. From premium pet food and toys to essential grooming supplies and healthcare products, we have carefully curated our selection to cater to the diverse needs of pets and their owners.
+            What sets us apart is our commitment to customer satisfaction and our passion for animals. Our knowledgeable and friendly staff are always here to assist you in finding the perfect products for your pets, and we take pride in offering personalized recommendations to help you make informed decisions.
+            In addition to our extensive product offerings, we also provide grooming services, training classes, and pet adoption events to support pet owners in every aspect of their journey with their furry companions.
+            Thank you for choosing My Pet Store as your trusted partner in pet care. We look forward to serving you and your pets for many years to come!</p>
+        
+        </div>
+</div>
+{% endblock %}

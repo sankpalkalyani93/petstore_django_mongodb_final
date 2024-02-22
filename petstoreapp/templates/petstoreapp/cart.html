@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Cart Page {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mt-5 mb-6">Your Cart</h1>
+            <ul class="list-group">
+                {% for cart_item in cart_items %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ cart_item.pet.name }}</span>
+                    <span>Quantity: {{ cart_item.quantity }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="{% url 'proceed_to_pay' %}" class="btn btn-primary mt-2 mb-3">Proceed to Pay</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

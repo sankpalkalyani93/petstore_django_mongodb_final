@@ -41,5 +41,29 @@
         </div>
         <!-- Add more columns for other categories -->
     </div>
+
+    <div>
+        <p class="display-4 d-flex align-items-center justify-content-center">Pet Products</p> 
+    </div>
+    
+    <div class="row mt-10 mb-10">
+      
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_food' %}">
+                <img src="{% static 'images/dogfood.jpg' %}" class="img-fluid pet-image" alt="Dogs">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_toys' %}">
+                <img src="{% static 'images/pettoys.jpg' %}" class="img-fluid pet-image" alt="Cats">
+            </a>
+        </div>
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'pet_create_medicines' %}">
+                <img src="{% static 'images/petmedicines.jpg' %}" class="img-fluid pet-image" alt="Birds">
+            </a>
+        </div>
+        <!-- Add more columns for other categories -->
+    </div>
 </div>
 {% endblock %}

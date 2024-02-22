@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %} Products Detail Page {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text"><strong>Description:</strong> {{ product.description }}</p>
+                    <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
+                    <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

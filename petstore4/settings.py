@@ -56,7 +56,7 @@ ROOT_URLCONF = 'petstore4.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'petstoreapp/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,6 +119,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+LOGIN_REDIRECT_URL = 'home'
+
+# Specify the URL to redirect to after logging out.
+LOGOUT_REDIRECT_URL = 'login'
+
+# Define the URLs for login and logout views
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
 
 
 # Static files (CSS, JavaScript, Images)

@@ -15,6 +15,16 @@
                     <p class="card-text"><strong>Category:</strong> {{ pet.category }}</p>
                 </div>
             </div>
+
+            <form method="post" action="{% url 'add_pet_to_cart' pk=pet.pk %}">
+                {% csrf_token %}
+                <div class="form-group" action="{% url 'add_pet_to_cart' pk=pet.pk %}">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1">
+                </div>
+                <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+
         </div>
     </div>
 </div>
