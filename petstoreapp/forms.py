@@ -1,8 +1,22 @@
 from django import forms 
-from .models import Pet, Product
+from .models import Pet, CustomUser, Product
+from django.contrib.auth.forms import UserCreationForm
+
+class CustomUserCreationForm(UserCreationForm):
+    phone_number = forms.CharField(max_length=20)
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'phone_number')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.phone_number = self.cleaned_data["phone_number"]
+        if commit:
+            user.save()
+        return user
 
 class PetForm(forms.ModelForm):
-    
     class Meta:
         model = Pet
         fields =  ['name', 'breed', 'price', 'image', 'category']

@@ -8,6 +8,10 @@
         <div class="col-md-6 offset-md-3">
             <h1>Proceed to Pay</h1>
             <p>Total Amount: ${{ total_amount }}</p>
+            <form action="{% url 'payment_confirmation' %}" method="get">
+                <input type="hidden" name="total_amount" value="{{ total_amount }}">
+                <button type="submit">Confirm Payment</button>
+            </form>
         </div>
     </div>
 </div>

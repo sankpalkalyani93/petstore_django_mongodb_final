@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'petstore4.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'petstore4',
+        'NAME': 'petstore6',
         "HOST": "localhost",
         "USER": "root",
         "PASSWORD": "",
@@ -88,7 +88,7 @@ DATABASES = {
     }
 }
 
-
+AUTH_USER_MODEL = 'petstoreapp.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -149,3 +149,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+RAZORPAY_TEST_KEY_ID = 'rzp_test_ltWnswclPoJ2sy'
+RAZORPAY_TEST_KEY_SECRET = 'oKysHkVO9Fsr7w8Bo0jfkUqR'
+
+RAZORPAY_PAYMENT_SETTINGS = {
+    'key_id': RAZORPAY_TEST_KEY_ID,
+    'key_secret': RAZORPAY_TEST_KEY_SECRET,
+}

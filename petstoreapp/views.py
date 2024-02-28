@@ -1,11 +1,26 @@
-from django.db import IntegrityError
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Cart, CartItem, Pet, Product
-from .forms import PetForm, PetSearchForm, ProductForm
-from django.views.generic import DetailView
+from .forms import PetForm, ProductForm, CustomUserCreationForm
 from django.db.models import Q 
 from django.contrib.auth import authenticate, login, logout
+
+# User views for registration
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('registration_success')  # Redirect to a success page
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+def registration_success(request):
+    return render(request, 'registration_success.html') 
 
 # Create your views here.
 def home(request):
@@ -14,10 +29,12 @@ def home(request):
 def about_us(request):
     return render(request, 'petstoreapp/about_us.html')
 
+@login_required
 def pets_list(request):
     pets = Pet.objects.all()
     return render(request, 'petstoreapp/pets_list.html', {'pets': pets})
 
+@login_required
 def pet_create(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)   
@@ -28,6 +45,7 @@ def pet_create(request):
         form = PetForm()
     return render(request, 'petstoreapp/pet_create.html', {'form': form})
 
+@login_required
 def pet_create_dog(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)   
@@ -41,6 +59,7 @@ def pet_create_dog(request):
         form = PetForm(initial={'category': 'dog'})
     return render(request, 'petstoreapp/pet_create_dog.html', {'form': form})
 
+@login_required
 def pet_create_cat(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)   
@@ -53,6 +72,7 @@ def pet_create_cat(request):
         form = PetForm(initial={'category': 'cat'})
     return render(request, 'petstoreapp/pet_create_cat.html', {'form': form})
 
+@login_required
 def pet_create_bird(request):
     if request.method == 'POST':
         form = PetForm(request.POST, request.FILES)   
@@ -65,6 +85,7 @@ def pet_create_bird(request):
         form = PetForm(initial={'category': 'bird'})
     return render(request, 'petstoreapp/pet_create_bird.html', {'form': form})
 
+@login_required
 def pet_detail(request, pk):
     pet = get_object_or_404(Pet, pk=pk)
     return render(request, 'petstoreapp/pets_detail.html', {'pet': pet})
@@ -99,27 +120,67 @@ def add_pet_to_cart(request, pk):
 
         return redirect('cart')
 
+@login_required
+def remove_from_cart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+    return redirect('cart') 
+
+@login_required
 def proceed_to_pay(request):
     cart_items = CartItem.objects.filter(cart__user=request.user)
     total_amount = sum(item.pet.price * item.quantity for item in cart_items)
     return render(request, 'petstoreapp/proceed_to_pay.html', {'total_amount': total_amount})
 
+@login_required
+def payment_confirmation(request):
+    # Your logic for payment confirmation here
+    # Get the current user's cart
+    cart = Cart.objects.get(user=request.user)
+    
+    # Get all cart items for the current user
+    cart_items = CartItem.objects.filter(cart=cart)
+    order_amount = 0
+
+    # Calculate the total amount to be paid
+    total_amount = sum(item.pet.price * item.quantity for item in cart_items)
+    print("total amount in payment_confirmation --------> ", total_amount)
+    # Initialize Razorpay client with your API key and secret
+    client = razorpay.Client(auth=(settings.RAZORPAY_TEST_KEY_ID, settings.RAZORPAY_TEST_KEY_SECRET))
+    
+    # Create Razorpay order
+    # order_amount = int(total_amount * 100)  # Razorpay expects amount in paise
+    order_amount = (order_amount + total_amount) * 100
+    print("order_amount in payment_confirmation ------------ > ", order_amount)
+    order_currency = 'INR'  # Change currency as per your requirement
+    order_receipt = 'order_rcptid_11'  # Replace with your order receipt ID
+    order = client.order.create({'amount': order_amount, 'currency': order_currency, 'receipt': order_receipt})
+    
+    # Pass Razorpay order details to the payment_confirmation template
+    context = {'order_amount': order_amount, 'order': order, 'razorpay_key_id': settings.RAZORPAY_TEST_KEY_ID}
+    
+    # Render the payment confirmation template
+    
+    return render(request, 'petstoreapp/payment_confirmation.html', context)
 
 @login_required
 def cart_view(request):
     cart_items = CartItem.objects.filter(cart__user=request.user)
     return render(request, 'petstoreapp/cart.html', {'cart_items': cart_items})
 
+@login_required
 def search_results(request):
     search_query = request.GET.get('search', '')
     #pets = Pet.objects.filter(name__icontains=search_query)
     pets = Pet.objects.filter(Q(name__icontains=search_query) | Q(breed__icontains=search_query))
     return render(request, 'petstoreapp/search_results.html', {'pets': pets, 'search_query': search_query})
 
+@login_required
 def products_list(request):
     products = Product.objects.all()
     return render(request, 'petstoreapp/products_list.html', {'products': products})
 
+@login_required
 def product_create(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)   
@@ -130,6 +191,7 @@ def product_create(request):
         form = ProductForm()
     return render(request, 'petstoreapp/product_create.html', {'form': form})
 
+@login_required
 def product_create_food(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)   
@@ -142,6 +204,7 @@ def product_create_food(request):
         form = ProductForm(initial={'category': 'food'})
     return render(request, 'petstoreapp/product_create_food.html', {'form': form})
 
+@login_required
 def product_create_medicines(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)   
@@ -154,6 +217,7 @@ def product_create_medicines(request):
         form = ProductForm(initial={'category': 'medicines'})
     return render(request, 'petstoreapp/product_create_medicines.html', {'form': form})
 
+@login_required
 def product_create_toys(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)   
@@ -166,17 +230,22 @@ def product_create_toys(request):
         form = ProductForm(initial={'category': 'toys'})
     return render(request, 'petstoreapp/product_create_toys.html', {'form': form})
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = 'petstoreapp/products_detail.html'
-    context_object_name = 'product'
+@login_required
+def product_detail(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    return render(request, 'petstoreapp/products_detail.html', {'product': product})
 
+@login_required
+def pet_detail(request, pk):
+    pet = get_object_or_404(Pet, pk=pk)
+    return render(request, 'petstoreapp/pets_detail.html', {'pet': pet})
+
+@login_required
 def search_product_results(request):
     search_query = request.GET.get('search', '')
     products = Product.objects.filter(name__icontains=search_query)
     #products = Product.objects.filter(Q(name__icontains=search_query))
     return render(request, 'petstoreapp/search_product_results.html', {'products': products, 'search_query': search_query})
-
 
 def custom_login(request):
     if request.method == 'POST':

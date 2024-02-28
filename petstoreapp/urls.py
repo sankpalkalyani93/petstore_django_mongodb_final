@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from .views import ProductDetailView
 
 # create views and then add the views pages to the path
 urlpatterns = [
@@ -15,7 +14,7 @@ urlpatterns = [
     path('pets/create/bird/', views.pet_create_bird,  name='pet_create_bird'),
     path('products/', views.products_list, name='products_list'),
     path('products/create/', views.product_create, name='product_create'),
-    path('products/<int:pk>/', ProductDetailView.as_view(), name='products_detail'),
+    path('products/<int:pk>/', views.product_detail, name='products_detail'),
     path('products/create/food/', views.product_create_food, name='pet_create_food'),
     path('products/create/medicines/', views.product_create_medicines,  name='pet_create_medicines'),
     path('products/create/toys/', views.product_create_toys,  name='pet_create_toys'),
@@ -24,4 +23,8 @@ urlpatterns = [
     path('add_to_cart/pet/<int:pk>/', views.add_pet_to_cart, name='add_pet_to_cart'),
     path('cart/', views.cart_view, name='cart'),
     path('proceed_to_pay/', views.proceed_to_pay, name='proceed_to_pay'),
+    path('payment_confirmation/', views.payment_confirmation, name='payment_confirmation'),
+    path('remove_from_cart/<int:cart_item_id>/', views.remove_from_cart, name='remove_from_cart'),
+    path('register/', views.register, name='register'),
+    path('registration_success/', views.registration_success, name='registration_success'),
 ]

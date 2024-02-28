@@ -28,6 +28,10 @@
                                 <a class="nav-link" href="{% url 'products_list' %}">Products</a>
                             </li>
                             
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register' %}">Sign-up</a>
+                            </li>
+
                             {% if user.is_authenticated %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
