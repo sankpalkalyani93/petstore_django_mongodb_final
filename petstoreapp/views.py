@@ -91,6 +91,23 @@ def pet_detail(request, pk):
     return render(request, 'petstoreapp/pets_detail.html', {'pet': pet})
 
 @login_required
+def edit_pet(request, id):
+    pet = get_object_or_404(Pet, id=id)
+    if request.method == 'POST':
+        form = PetForm(request.POST, instance=pet)
+        if form.is_valid():
+            form.save()
+            return redirect('pets_list')
+    else:
+        form = PetForm(instance=pet)
+    return render(request, 'petstoreapp/edit_pet.html', {'form': form})
+    
+def delete_pet(request, id):
+    pet = get_object_or_404(Pet, id=id)
+    pet.delete()
+    return render(request, 'petstoreapp/delete_pet.html')
+
+@login_required
 def add_pet_to_cart(request, pk):
     if request.method == 'POST':
         pet = get_object_or_404(Pet, pk=pk)

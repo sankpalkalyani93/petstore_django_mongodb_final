@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %} Delete Pet {% endblock %}
+
+{% block content %}
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h1>Pet deleted successfully</h1>
+                <p><a href="{% url 'pets_list' %}">Pets List</a></p>
+            </div>
+        </div>
+{% endblock %}
