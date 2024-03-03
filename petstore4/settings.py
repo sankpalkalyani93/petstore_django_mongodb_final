@@ -77,14 +77,8 @@ WSGI_APPLICATION = 'petstore4.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'djongo',
         'NAME': 'petstore6',
-        "HOST": "localhost",
-        "USER": "root",
-        "PASSWORD": "",
-        "OPTIONS": {
-            'sql_mode': 'traditional',
-        }
     }
 }
 
